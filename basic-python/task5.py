@@ -23,7 +23,7 @@ for review in reviews:
     stars_sum[name] = stars_sum.get(name, 0) + review['stars']
     reviews_count[name] = reviews_count.get(name, 0) + 1
 
-for review in reviews:
+for review in stars_sum:
     name = review["product"]
     avg_rating[name] = stars_sum[name] / reviews_count[name]
 
@@ -35,7 +35,7 @@ worst_good = ""
 words_avg = 10000000000
 for name in reviews_count.keys():
     if reviews_count[name] >= 2:
-        if words_avg < avg_rating[name]:
+        if words_avg > avg_rating[name]:
             worst_good = name
             words_avg = avg_rating[name] 
 print(f"Худший товар по средней оценке среди тех, у кого хотя бы два отзыва: {worst_good}")

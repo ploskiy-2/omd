@@ -4,7 +4,7 @@ kazan = {203, 204, 205, 206}
 both_city = moscow.intersection(kazan)
 moscow_goods = moscow - kazan
 kazan_goods = kazan - moscow
-unique_goods = moscow.symmetric_difference(kazan) + both_city
+unique_goods = moscow.union(kazan) 
 
 
 print(f"Можно забрать в любом из двух городов товары: ", both_city)

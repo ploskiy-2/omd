@@ -38,3 +38,4 @@ print("Запросы, которые встретились один раз:")
 for key,value in counts.items():
     if value == 1:
         print(key, end=' ')
+print()
