@@ -39,7 +39,7 @@ if __name__ == "__main__":
                 worst_good = name
                 words_avg = avg_rating[name]
     print(
-        f"Худший товар по средней оценке среди тех, у кого хотя бы два отзыва: {worst_good}")
+        f"Худший товар по сред. оценке, где хотя бы два отзыва: {worst_good}")
 
     stars_1or2 = 0
     for review in reviews:

@@ -34,7 +34,7 @@ if __name__ == "__main__":
             max_search = key
     print(f"Чаще всего вводили запрос: {max_search}, {max_count} раз")
     print(
-        f"Самый частый вопрос занимает {max_count / all_searches} от всех запросов")
+        f"Самый частый вопрос занимает {max_count / all_searches} от запросов")
     print("Запросы, которые встретились один раз:")
     for key, value in counts.items():
         if value == 1:

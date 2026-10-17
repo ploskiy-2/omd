@@ -26,4 +26,4 @@ if __name__ == "__main__":
 
     print(f"Было доставлено заказов: {count_delivered}")
     print(
-        f"Средний чек, доставленных заказов: {sum_delivered / count_delivered}")
+        f"Сред. чек, доставленных заказов: {sum_delivered / count_delivered}")
