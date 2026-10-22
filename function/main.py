@@ -5,9 +5,13 @@ HEADERS = ["FIO", "Department", "Team", "Position", "Mark", "Salary"]
 OUTPUT_FILE = "Output.csv"
 
 def read_file() -> list[dict]:
-    """
-    Считываем информацию о сотрудниках из файла. Каждый сотрудник - это словарь
-    с ключами из HEADERS. Возвращаем список таких словарей
+    """Прочитать CSV-файл с сотрудниками.
+
+    Ключи словарей берутся из HEADERS, Salary и Mark конвертируются
+    в числа.
+
+    Возвращает список сотрудников, 
+    где информация о сотрудника в виде словаря.
     """
     with open(INPUT_FILE, mode="r", encoding="UTF-8") as file:
         reader = csv.DictReader(file, 
@@ -22,6 +26,16 @@ def read_file() -> list[dict]:
         return employees
 
 def get_department_info(employee_data: list[dict]) -> dict:
+    """Собрать статистику по департаментам
+
+    Для каждого департамента находим все команды, число сотрудников,
+    минимальный, максимальный и суммарный оклад
+
+    Аргументы:
+    employee_data -- список сотрудников из read_file()
+
+    Возвращает словарь: название департамента -> его статистика
+    """
     departments = {}
     for employee in employee_data:
         department_name = employee["Department"]
@@ -43,7 +57,7 @@ def get_department_info(employee_data: list[dict]) -> dict:
     return departments
 
 def report_1(employee_data: list[dict]) -> None:
-
+    """Вывести департаменты и входящие в них команды"""
     departments = get_department_info(employee_data)
     print("Департамент --- Команды")
     for department_name, department_info in departments.items():
@@ -51,7 +65,11 @@ def report_1(employee_data: list[dict]) -> None:
         print(f"{department_name}: {teams}")
 
 def report_2(employee_data: list[dict]) -> None:
+    """Вывести сводку по департаментам
 
+    Для каждого департамента: число сотрудников, минимальная,
+    максимальная и средняя зарплата
+    """
     departments = get_department_info(employee_data)
     for department_name, department_info in departments.items():
         print(f"Департамент: {department_name}")
@@ -63,7 +81,8 @@ def report_2(employee_data: list[dict]) -> None:
         print()
 
 def report_3(employee_data: list[dict]) -> None:
-    report_headers = ["Department", "Employee Сount", 
+    """Сохранить сводку аналогичную report_2() в файл OUTPUT_FILE"""
+    report_headers = ["Department", "Employee Count", 
                        "Min Salary", "Max Salary", "Avg Salary"]
     departments = get_department_info(employee_data)
     with open(OUTPUT_FILE, mode="w", encoding="UTF-8", newline="") as output_file:
@@ -81,6 +100,13 @@ def report_3(employee_data: list[dict]) -> None:
             })
 
 def main(report_number: int) -> None:
+    """Прочитать файл и запустить отчет с выбранным номером
+
+    Аргументы:
+    report_number -- номер отчета: 1, 2 или 3
+
+    Выбрасывает ValueError, если номер не 1, 2 или 3
+    """
     employee_data = read_file()
 
     if report_number == 1:
