@@ -29,6 +29,7 @@ omd/
 ## Requirements
 
 - Python **3.12 or newer**
+- Nothing to install, only the standard library
 
 ## Build
 

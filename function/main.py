@@ -11,7 +11,7 @@ def read_file() -> list[dict]:
     в числа.
 
     Возвращает список сотрудников, 
-    где информация о сотрудника в виде словаря.
+    где информация о сотруднике в виде словаря.
     """
     with open(INPUT_FILE, mode="r", encoding="UTF-8") as file:
         reader = csv.DictReader(file, 
@@ -26,7 +26,7 @@ def read_file() -> list[dict]:
         return employees
 
 def get_department_info(employee_data: list[dict]) -> dict:
-    """Собрать статистику по департаментам
+    """Собрать статистику по департаментам.
 
     Для каждого департамента находим все команды, число сотрудников,
     минимальный, максимальный и суммарный оклад
@@ -57,7 +57,7 @@ def get_department_info(employee_data: list[dict]) -> dict:
     return departments
 
 def report_1(employee_data: list[dict]) -> None:
-    """Вывести департаменты и входящие в них команды"""
+    """Вывести департаменты и входящие в них команды."""
     departments = get_department_info(employee_data)
     print("Департамент --- Команды")
     for department_name, department_info in departments.items():
@@ -65,7 +65,7 @@ def report_1(employee_data: list[dict]) -> None:
         print(f"{department_name}: {teams}")
 
 def report_2(employee_data: list[dict]) -> None:
-    """Вывести сводку по департаментам
+    """Вывести сводку по департаментам.
 
     Для каждого департамента: число сотрудников, минимальная,
     максимальная и средняя зарплата
@@ -81,7 +81,7 @@ def report_2(employee_data: list[dict]) -> None:
         print()
 
 def report_3(employee_data: list[dict]) -> None:
-    """Сохранить сводку аналогичную report_2() в файл OUTPUT_FILE"""
+    """Сохранить сводку аналогичную report_2() в файл OUTPUT_FILE."""
     report_headers = ["Department", "Employee Count", 
                        "Min Salary", "Max Salary", "Avg Salary"]
     departments = get_department_info(employee_data)
@@ -100,7 +100,7 @@ def report_3(employee_data: list[dict]) -> None:
             })
 
 def main(report_number: int) -> None:
-    """Прочитать файл и запустить отчет с выбранным номером
+    """Прочитать файл и запустить отчет с выбранным номером.
 
     Аргументы:
     report_number -- номер отчета: 1, 2 или 3
