@@ -20,13 +20,13 @@ def read_file() -> list[dict]:
             employees.append(row)
         return employees
 
-def get_departmet_info(employee_data: list[dict]) -> dict:
+def get_department_info(employee_data: list[dict]) -> dict:
     departments = {}
     for employee in employee_data:
         department_name = employee["Department"]
         salary = employee["Salary"]
-        if employee["Department"] not in departments:
-            departments[employee["Department"]] = {
+        if department_name not in departments:
+            departments[department_name] = {
                 "Team_unique": set(),
                 "Employee_count": 0,
                 "Min_salary": salary,
@@ -43,27 +43,40 @@ def get_departmet_info(employee_data: list[dict]) -> dict:
 
 def report_1(employee_data: list[dict]) -> None:
 
-    departments = get_departmet_info(employee_data)
+    departments = get_department_info(employee_data)
     print("Департамент --- Команды")
-    for key, value in departments.items():
-        print(f"{key}: {value["Team_unique"]}")
+    for department_name, department_info in departments.items():
+        teams = ", ".join(department_info["Team_unique"])
+        print(f"{department_name}: {teams}")
 
-def report_2() -> None:
+def report_2(employee_data: list[dict]) -> None:
+
+    departments = get_department_info(employee_data)
+    for department_name, department_info in departments.items():
+        print(f"Департамен: {department_name}")
+        print(f"Количество сотрудников = {department_info["Employee_count"]}")
+        print(f"Минимальная зарплата = {department_info["Min_salary"]}")
+        print(f"Максимальная зарплата = {department_info["Max_salary"]}")
+        print(f"Средняя зарплата = {department_info["Sum_salary"] / department_info["Employee_count"]}")
+
+        print()
+
+def report_3(employee_data: list[dict]) -> None:
     return
 
-def report_3() -> None:
-    return
-
-if __name__ == "__main__":
+def main():
     report_number = int(input("Введите номер отчета: "))
     employee_data = read_file()
 
     if report_number == 1:
-        report_1()
+        report_1(employee_data)
     elif report_number == 2:
         report_2()
     elif report_number == 3:
         report_3()
     else:
         raise ValueError('Введен неверный номер для создания отчета')
+
+if __name__ == "__main__":
+    main()
      
