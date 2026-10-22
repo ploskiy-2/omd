@@ -1,8 +1,9 @@
-import csv 
+import csv
 
 INPUT_FILE = "Corp_Summary.csv"
 HEADERS = ["FIO", "Department", "Team", "Position", "Mark", "Salary"]
 OUTPUT_FILE = "Output.csv"
+
 
 def read_file() -> list[dict]:
     """Прочитать CSV-файл с сотрудниками.
@@ -10,11 +11,10 @@ def read_file() -> list[dict]:
     Ключи словарей берутся из HEADERS, Salary и Mark конвертируются
     в числа.
 
-    Возвращает список сотрудников, 
-    где информация о сотруднике в виде словаря.
+    Возвращает список сотрудников, где информация о сотруднике в виде словаря.
     """
     with open(INPUT_FILE, mode="r", encoding="UTF-8") as file:
-        reader = csv.DictReader(file, 
+        reader = csv.DictReader(file,
                                 delimiter=";",
                                 fieldnames=HEADERS)
         next(reader)
@@ -24,6 +24,7 @@ def read_file() -> list[dict]:
             row["Mark"] = float(row["Mark"])
             employees.append(row)
         return employees
+
 
 def get_department_info(employee_data: list[dict]) -> dict:
     """Собрать статистику по департаментам.
@@ -53,8 +54,9 @@ def get_department_info(employee_data: list[dict]) -> dict:
         department["Min_salary"] = min(department["Min_salary"], salary)
         department["Max_salary"] = max(department["Max_salary"], salary)
         department["Sum_salary"] += salary
-              
+
     return departments
+
 
 def report_1(employee_data: list[dict]) -> None:
     """Вывести департаменты и входящие в них команды."""
@@ -63,6 +65,7 @@ def report_1(employee_data: list[dict]) -> None:
     for department_name, department_info in departments.items():
         teams = ", ".join(department_info["Team_unique"])
         print(f"{department_name}: {teams}")
+
 
 def report_2(employee_data: list[dict]) -> None:
     """Вывести сводку по департаментам.
@@ -76,21 +79,27 @@ def report_2(employee_data: list[dict]) -> None:
         print(f"Количество сотрудников = {department_info["Employee_count"]}")
         print(f"Минимальная зарплата = {department_info["Min_salary"]}")
         print(f"Максимальная зарплата = {department_info["Max_salary"]}")
-        print(f"Средняя зарплата = {round(department_info["Sum_salary"] / department_info["Employee_count"], 2)}")
-
+        sum_salary = department_info["Sum_salary"]
+        employee_count = department_info["Employee_count"]
+        avg_salary = round(sum_salary / employee_count, 2)
+        print(f"Средняя зарплата = {avg_salary}")
         print()
+
 
 def report_3(employee_data: list[dict]) -> None:
     """Сохранить сводку аналогичную report_2() в файл OUTPUT_FILE."""
-    report_headers = ["Department", "Employee Count", 
-                       "Min Salary", "Max Salary", "Avg Salary"]
+    report_headers = ["Department", "Employee Count",
+                      "Min Salary", "Max Salary", "Avg Salary"]
     departments = get_department_info(employee_data)
-    with open(OUTPUT_FILE, mode="w", encoding="UTF-8", newline="") as output_file:
+    with open(OUTPUT_FILE, mode="w", encoding="UTF-8",
+              newline="") as output_file:
         writer = csv.DictWriter(output_file, fieldnames=report_headers)
         writer.writeheader()
-        
+
         for department_name, department_info in departments.items():
-            avg_salary = round(department_info["Sum_salary"] / department_info["Employee_count"], 2)
+            avg_salary = round(
+                department_info["Sum_salary"]
+                / department_info["Employee_count"], 2)
             writer.writerow({
                 "Department": department_name,
                 "Employee Count": department_info["Employee_count"],
@@ -98,6 +107,7 @@ def report_3(employee_data: list[dict]) -> None:
                 "Max Salary": department_info["Max_salary"],
                 "Avg Salary": avg_salary
             })
+
 
 def main(report_number: int) -> None:
     """Прочитать файл и запустить отчет с выбранным номером.
@@ -116,9 +126,9 @@ def main(report_number: int) -> None:
     elif report_number == 3:
         report_3(employee_data)
     else:
-        raise ValueError('Введен неверный номер для создания отчета')
+        raise ValueError("Введен неверный номер для создания отчета")
+
 
 if __name__ == "__main__":
     report_number = int(input("Введите номер отчета: "))
     main(report_number)
-     
