@@ -2,6 +2,7 @@ import csv
 
 INPUT_FILE = "Corp_Summary.csv"
 HEADERS = ["FIO", "Department", "Team", "Position", "Mark", "Salary"]
+OUTPUT_FILE = "Output.csv"
 
 def read_file() -> list[dict]:
     """
@@ -53,30 +54,39 @@ def report_2(employee_data: list[dict]) -> None:
 
     departments = get_department_info(employee_data)
     for department_name, department_info in departments.items():
-        print(f"Департамен: {department_name}")
+        print(f"Департамент: {department_name}")
         print(f"Количество сотрудников = {department_info["Employee_count"]}")
         print(f"Минимальная зарплата = {department_info["Min_salary"]}")
         print(f"Максимальная зарплата = {department_info["Max_salary"]}")
-        print(f"Средняя зарплата = {department_info["Sum_salary"] / department_info["Employee_count"]}")
+        print(f"Средняя зарплата = {round(department_info["Sum_salary"] / department_info["Employee_count"], 2)}")
 
         print()
 
 def report_3(employee_data: list[dict]) -> None:
-    return
+    report_headears = ["Department", "Teams", "Min Salary", "Max Salary", "Avg Salary"]
+    departments = get_department_info(employee_data)
+    with open(OUTPUT_FILE, mode="w", encoding="UTF-8", newline="") as output_file:
+        writer = csv.DictWriter(departments, fieldnames=report_headears)
+        writer.writeheader()
+        
+        for department_name, department_info in departments.items():
+            row = department_info.copy()
+            row["Team_unique"] = ", ".join(department_info["Team_unique"])
+            writer.writerow(row)
 
-def main():
-    report_number = int(input("Введите номер отчета: "))
+def main(report_number: int) -> None:
     employee_data = read_file()
 
     if report_number == 1:
         report_1(employee_data)
     elif report_number == 2:
-        report_2()
+        report_2(employee_data)
     elif report_number == 3:
-        report_3()
+        report_3(employee_data)
     else:
         raise ValueError('Введен неверный номер для создания отчета')
 
 if __name__ == "__main__":
-    main()
+    report_number = int(input("Введите номер отчета: "))
+    main(report_number)
      
