@@ -12,24 +12,41 @@ def read_file() -> list[dict]:
         reader = csv.DictReader(file, 
                                 delimiter=";",
                                 fieldnames=HEADERS)
-        next(reader)       
-        return list(reader)
+        next(reader)
+        employees = []
+        for row in reader:
+            row["Salary"] = int(row["Salary"])
+            row["Mark"] = float(row["Mark"])
+            employees.append(row)
+        return employees
 
-
-def report_1(employee_data: list[dict]) -> None:
-    """
-    На вход будем получать информацию о всех сотрудниках
-    Создать словарь: Департамент - Команда 
-    """
+def get_departmet_info(employee_data: list[dict]) -> dict:
     departments = {}
     for employee in employee_data:
+        department_name = employee["Department"]
+        salary = employee["Salary"]
         if employee["Department"] not in departments:
-            departments[employee["Department"]] = (employee["Team"])
-        else:
-            departments[employee["Department"]].add(employee["Team"])
+            departments[employee["Department"]] = {
+                "Team_unique": set(),
+                "Employee_count": 0,
+                "Min_salary": salary,
+                "Max_salary": salary,
+                "Sum_salary": 0}
+        department = departments[department_name]
+        department["Team_unique"].add(employee["Team"])
+        department["Employee_count"] += 1
+        department["Min_salary"] = min(department["Min_salary"], salary)
+        department["Max_salary"] = max(department["Max_salary"], salary)
+        department["Sum_salary"] += salary
+              
+    return departments
+
+def report_1(employee_data: list[dict]) -> None:
+
+    departments = get_departmet_info(employee_data)
     print("Департамент --- Команды")
     for key, value in departments.items():
-        print(f"{key}: {value}")
+        print(f"{key}: {value["Team_unique"]}")
 
 def report_2() -> None:
     return
