@@ -63,16 +63,22 @@ def report_2(employee_data: list[dict]) -> None:
         print()
 
 def report_3(employee_data: list[dict]) -> None:
-    report_headears = ["Department", "Teams", "Min Salary", "Max Salary", "Avg Salary"]
+    report_headers = ["Department", "Employee Сount", 
+                       "Min Salary", "Max Salary", "Avg Salary"]
     departments = get_department_info(employee_data)
     with open(OUTPUT_FILE, mode="w", encoding="UTF-8", newline="") as output_file:
-        writer = csv.DictWriter(departments, fieldnames=report_headears)
+        writer = csv.DictWriter(output_file, fieldnames=report_headers)
         writer.writeheader()
         
         for department_name, department_info in departments.items():
-            row = department_info.copy()
-            row["Team_unique"] = ", ".join(department_info["Team_unique"])
-            writer.writerow(row)
+            avg_salary = round(department_info["Sum_salary"] / department_info["Employee_count"], 2)
+            writer.writerow({
+                "Department": department_name,
+                "Employee Count": department_info["Employee_count"],
+                "Min Salary": department_info["Min_salary"],
+                "Max Salary": department_info["Max_salary"],
+                "Avg Salary": avg_salary
+            })
 
 def main(report_number: int) -> None:
     employee_data = read_file()
