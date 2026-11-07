@@ -9,7 +9,7 @@ The notebook parses this file into flat records and analyses it:
 2. **EDA** - number of records, missing values
 3. **Own mini-pandas** - filter, group by and aggregations
    (mean, median, min, max, count, top-N)
-4. **Analysis** - age of laureates at their first prize and women laureates:
+4. **Analysis** - age of laureates at their first prize and women laureates
 
 ## Structure
 
